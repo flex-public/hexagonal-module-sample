@@ -1,0 +1,62 @@
+name: CI
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  ci:
+    name: ci
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: install sdkman
+        run: curl -s "https://get.sdkman.io" | bash
+      - name: jdk cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.sdkman
+          key: gha-${{ runner.os }}-sdkman-${{ hashFiles('**/.sdkmanrc') }}
+      - name: install jdk
+        run: |
+          source "$HOME/.sdkman/bin/sdkman-init.sh"
+          sdk env install
+      - name: gradle cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+            ~/.gradle/jdks
+          key: gha-${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            gha-${{ runner.os }}-gradle
+      - name: check
+        run: |
+          source "$HOME/.sdkman/bin/sdkman-init.sh"
+          ./gradlew check --parallel --no-daemon
+      - name: upload ktlint report
+        uses: jwgmeligmeyling/checkstyle-github-action@v1.2
+        if: always()
+        continue-on-error: true
+        with:
+          name: ktlint report
+          path: '**/build/reports/ktlint/**/*.xml'
+      - name: upload detekt report
+        uses: jwgmeligmeyling/checkstyle-github-action@v1.2
+        if: always()
+        continue-on-error: true
+        with:
+          name: detekt report
+          path: '**/build/reports/detekt/detekt.xml'
+      - name: upload test report
+        uses: mikepenz/action-junit-report@v3
+        if: always()
+        continue-on-error: true
+        with:
+          check_name: 'JUnit Test Report'
+          report_paths: '**/build/test-results/*[tT]est/TEST-*.xml'

@@ -1,0 +1,4 @@
+team.flex.module.sample.corehr.company.department.DepartmentAutoConfiguration
+team.flex.module.sample.corehr.company.jobrole.JobRoleAutoConfiguration
+team.flex.module.sample.corehr.company.CompanyAutoConfiguration
+team.flex.module.sample.corehr.employee.EmployeeAutoConfiguration

@@ -1,0 +1,408 @@
+@startuml
+'https://plantuml.com/component-diagram
+
+left to right direction
+
+title "Hexagonal Application - Architecture Guide"
+
+card Legend {
+    card a
+    card b
+    card c
+    card d
+    card e
+    card f
+    card g
+    card h
+
+    a --> b : Call (gradle implement)
+    c ..> d : Extend (gradle implement)
+    e -[dotted]-> f : Reference (gradle api)
+    g -[dotted]- h : Indirect Relation
+}
+
+actor user as "user"
+actor flex_admin as "flex admin"
+
+hexagon application as "Hexagonal Application" {
+    frame "Inbound" {
+        portin web
+        portin raccoon
+
+        rectangle inport as "in-port-internal"
+        rectangle protocol as "protocol (in-port로 마이그레이션 - optional)"
+        rectangle api as "api"
+        rectangle api_internal as "api-internal"
+        rectangle api_operation as "api-operation"
+        rectangle api_internal_client as "api-internal-client"
+
+        web --> api
+        raccoon --> api_operation
+
+        protocol --> inport
+
+        api_internal ..> inport
+        api_internal_client .left.> inport
+    }
+
+    frame "XX" {
+        rectangle model as "model (dto?)"
+        rectangle service as "service (use-case)"
+
+        rectangle exception
+
+        service .[dotted]left.> model
+        model .[dotted]left.> exception
+        service .[dotted]left.> exception
+    }
+
+    frame "Outbound" {
+        rectangle infrastructure as "infrastructure (out-port)"
+        rectangle repository as "repository-{type}"
+        rectangle message_queue as "message-queue-{type}"
+
+        repository .right.> infrastructure
+        message_queue .right.> infrastructure
+    }
+
+    api -[dotted]right-> exception
+    api_internal -[dotted]right-> exception
+    api_operation -[dotted]right-> exception
+    inport -[dotted]right-> exception
+
+    inport ..> model : optional, 새로운 repo는 연결을 끊는 것이 default?
+
+    api --> service
+    api_internal --> service
+    api_operation --> service
+
+    infrastructure .[dotted]left.> model
+
+    service --> infrastructure
+
+    api_internal -[dotted]- api_internal_client
+}
+
+hexagon another_application as "Another Application" {
+    frame another_inbound as "Inbound" {
+        portin internal
+
+        rectangle another_inport as "in-port-internal"
+        rectangle another_api as "api"
+        rectangle another_api_internal as "api-internal"
+        rectangle another_api_operation as "api-operation"
+        rectangle another_api_internal_client as "api-internal-client"
+
+        another_inport <.. another_api_internal
+
+        another_inport <.left. another_api_internal_client
+    }
+
+    frame another_domain as "??" {
+        rectangle another_model as "model"
+        rectangle another_service as "service (user-case)"
+        rectangle another_exception as "exception"
+
+        another_service .[dotted]left.> another_model
+        another_service .[dotted]left.> another_exception
+    }
+
+    frame another_outbound as "Outbound" {
+        rectangle another_infrastructure as "infrastructure (out-port)"
+        rectangle another_repository as "repository-{type}"
+    }
+
+    another_api -[dotted]right-> another_exception
+    another_api_internal -[dotted]right-> another_exception
+    another_api_operation -[dotted]right-> another_exception
+
+    another_api --> another_service
+    another_api_internal --> another_service
+    another_api_operation --> another_service
+
+    another_infrastructure .[dotted]left.> another_model
+
+    another_service --> another_infrastructure
+    another_repository .right.> another_infrastructure
+
+    another_api_internal -[dotted]- another_api_internal_client
+}
+
+application -[hidden]- another_application
+
+user --> web
+flex_admin --> raccoon
+
+'Hexagonal <> Another
+infrastructure --> internal : ????
+internal --> another_inport
+
+@enduml
+
+@startuml
+'https://plantuml.com/component-diagram
+left to right direction
+
+title "Hexagonal Application - Code Naming Guide"
+
+card leg as "Legend" {
+    card a
+    card b
+    card c
+    card d
+    card e
+    card f
+    card g
+    card h
+
+    a --> b : Call
+    c ..> d : Extend
+    e -[dotted]-> f : Reference
+    g -[dotted]- h : Indirect Relation
+}
+
+hexagon application as "Hexagonal Application" {
+    frame "Inbound" {
+        package api as "api" {
+            rectangle DomainApiController
+            rectangle DomainApiRequest as "data class DomainApiRequest"
+            rectangle DomainApiResponse as "data class DomainApiResponse"
+
+            DomainApiController ..> DomainApiRequest
+            DomainApiController ..> DomainApiResponse
+        }
+
+        package api_internal as "api-internal" {
+            rectangle DomainInternalApiController
+        }
+
+        package operation_api as "api-operation" {
+            rectangle DomainOperationApiController
+        }
+
+        package api_internal_client as "api-internal-client" {
+            rectangle DomainInternalApiClient
+            rectangle DomainInternalApiDto
+
+            DomainInternalApiClient .[dotted].> DomainInternalApiDto
+        }
+
+        package in_port_internal as "in-port-internal" {
+            rectangle DomainApi as "interface DomainApi"
+        }
+
+        DomainInternalApiController -[dotted]- DomainInternalApiClient
+
+        DomainInternalApiClient ..> DomainApi
+    }
+
+    frame "??" {
+        package model {
+            rectangle DomainIdentity as "interface DomainIdentity"
+            rectangle DomainProps as "interface DomainProps"
+            rectangle DomainModel {
+                rectangle domainIdentity
+                rectangle domainProps
+            }
+            rectangle Domain as "class Domain"
+
+            DomainModel -[dotted]-> DomainIdentity : composite
+            DomainModel -[dotted]-> DomainProps : composite
+            Domain ..> DomainModel
+        }
+
+        package service as "service (user-case)" {
+            rectangle DomainCreateUseCase as "DomainCreateUseCase (public interface)"
+            rectangle DomainReadUseCase as "DomainReadUseCase (public interface)"
+            rectangle DomainQueryUseCase as "DomainQueryUseCase (public interface)"
+
+            rectangle DomainService
+            rectangle DomainQueryService
+
+            DomainService ..> DomainCreateUseCase
+            DomainService ..> DomainReadUseCase
+            DomainQueryService ..> DomainQueryUseCase
+        }
+
+        package exception {
+            rectangle DomainXXException
+        }
+
+        DomainCreateUseCase -[dotted]-> DomainModel
+        DomainReadUseCase -[dotted]-> DomainModel
+        DomainQueryUseCase -[dotted]-> DomainModel
+
+        DomainService -[dotted]left-> DomainXXException
+    }
+
+    frame "Outbound" {
+        package infrastructure as "infrastructure (out-port)" {
+            rectangle DomainRepository
+        }
+
+        package repository as "repository-jpa" {
+            rectangle DomainJpaRepository
+            rectangle DomainJpaEntity
+            rectangle DomainRepositoryImpl
+
+            DomainJpaRepository -[dotted]-> DomainJpaEntity
+        }
+
+        DomainRepositoryImpl --> DomainJpaRepository
+
+        DomainJpaRepository .right.> DomainRepository
+    }
+
+    DomainApi -[dotted]right-> DomainModel
+
+    DomainApiController --> DomainCreateUseCase
+    DomainApiController --> DomainReadUseCase
+    DomainApiController --> DomainQueryUseCase
+
+    DomainInternalApiController --> DomainCreateUseCase
+    DomainInternalApiController --> DomainReadUseCase
+    DomainInternalApiController --> DomainQueryUseCase
+
+    DomainRepositoryImpl ..> DomainRepository
+
+    DomainRepository .[dotted]left.> DomainModel
+
+    DomainJpaEntity ..> DomainModel : (Optional)
+
+    DomainService --> DomainRepository
+}
+
+hexagon another_application as "Another Application" {
+    frame another_inbound as "Inbound" {
+        package another_in_port_internal as "in-port-internal" {
+            rectangle AnotherDomainApi
+        }
+
+        package another_api_internal_client as "api-internal-client" {
+            rectangle AnotherDomainInternalApiClient
+        }
+
+        another_api_internal_client ..> another_in_port_internal
+    }
+}
+
+application -[hidden]- another_application
+
+infrastructure ..> another_in_port_internal
+
+@enduml
+
+@startuml
+'https://plantuml.com/component-diagram
+left to right direction
+
+title "Hexagonal Application - Code Naming Guide"
+
+card leg as "Legend" {
+    card a
+    card b
+    card c
+    card d
+    card e
+    card f
+    card g
+    card h
+
+    a --> b : Call
+    c ..> d : Extend
+    e -[dotted]-> f : Reference
+    g -[dotted]-> h : Indirect Relation
+}
+
+hexagon application as "Hexagonal Application" {
+    frame "Inbound" {
+        package api as "api" {
+            rectangle HexagonalDomainApiController
+        }
+
+        package internal_api as "internal-api" {
+            rectangle HexagonalDomainInternalApiController
+        }
+
+        package operation_api as "operation-api" {
+            rectangle HexagonalDomainOperationApiController
+        }
+
+        package internal_api_client as "internal-api-client" {
+            rectangle HexagonalDomainInternalApiClient
+        }
+
+        package protocol as "protocol (in-port)" {
+            rectangle HexagonalDomainXXService
+        }
+
+        package exception {
+            rectangle HexagonalDomainXXException
+        }
+
+        HexagonalDomainInternalApiController -[dotted]- HexagonalDomainInternalApiClient
+
+        HexagonalDomainInternalApiController ..> HexagonalDomainXXService
+        HexagonalDomainInternalApiClient ..> HexagonalDomainXXService
+    }
+
+    frame "Domain" {
+        package model {
+            rectangle HexagonalDomainIdentity
+            rectangle HexagonalDomainModel
+            rectangle HexagonalDomainEntity
+
+            HexagonalDomainEntity ..> HexagonalDomainIdentity
+            HexagonalDomainEntity ..> HexagonalDomainModel
+        }
+
+        package service as "service (user-case)" {
+            rectangle HexagonalDomainUseCase
+            rectangle HexagonalDomainXXServiceImpl
+
+            HexagonalDomainXXServiceImpl ..> HexagonalDomainUseCase : ????
+        }
+
+        HexagonalDomainXXServiceImpl -[dotted]right-> HexagonalDomainEntity
+        HexagonalDomainXXService -[dotted]right-> HexagonalDomainEntity
+    }
+
+    frame "Outbound" {
+        package infrastructure as "infrastructure (out-port)" {
+            rectangle HexagonalDomainRepository
+            rectangle AnotherDomainService
+        }
+
+        package repository as "repository-{type}" {
+            rectangle HexagonalDomainRepositoryImpl
+            rectangle HexagonalResponse
+
+            HexagonalDomainRepositoryImpl -[dotted]-> HexagonalResponse
+        }
+
+        HexagonalDomainRepositoryImpl .right.> HexagonalDomainRepository
+    }
+
+    HexagonalDomainApiController -up-> HexagonalDomainXXServiceImpl
+    HexagonalDomainInternalApiController -up-> HexagonalDomainXXServiceImpl
+    HexagonalDomainOperationApiController -up-> HexagonalDomainXXServiceImpl
+
+    HexagonalDomainRepository .up[dotted].> HexagonalDomainEntity
+
+    HexagonalDomainXXServiceImpl -up-> HexagonalDomainRepository
+}
+
+hexagon another_application as "Another Application" {
+    frame another_inbound as "Inbound" {
+        rectangle AnotherDomainInternalApiClient as "internal-api-client"
+        rectangle AnotherDomainProtocolService as "protocol (in-port)"
+
+        AnotherDomainInternalApiClient ..> AnotherDomainProtocolService
+    }
+}
+
+application -[hidden]- another_application
+
+AnotherDomainService ..> AnotherDomainProtocolService : ????
+
+@enduml

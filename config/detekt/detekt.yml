@@ -1,0 +1,5 @@
+
+# We should know what we do
+performance:
+  SpreadOperator:
+    active: false

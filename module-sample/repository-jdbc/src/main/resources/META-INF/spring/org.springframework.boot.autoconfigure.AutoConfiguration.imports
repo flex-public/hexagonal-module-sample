@@ -1,0 +1,5 @@
+team.flex.module.sample.corehr.company.department.repository.DepartmentRepositoryAutoConfiguration
+team.flex.module.sample.corehr.company.jobrole.repository.JobRoleRepositoryAutoConfiguration
+team.flex.module.sample.corehr.company.repository.CompanyRepositoryAutoConfiguration
+team.flex.module.sample.corehr.employee.repository.EmployeeRepositoryAutoConfiguration
+

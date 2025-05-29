@@ -8,7 +8,7 @@
 공감이 어려운 부분이나 표현이 부족하다고 생각이 되신다면, 저희 discord community를 통해 논의를 나눠보면 좋을 것 같습니다. 
 
 ![Discord Banner 1](https://discord.com/api/guilds/1377214678945759252/widget.png?style=banner1)
-
+[디스코드 채널 들어가기](https://discord.gg/szEeNZ3C)
 
 ---
 

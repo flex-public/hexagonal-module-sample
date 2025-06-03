@@ -8,18 +8,13 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.autoconfigure.data.jdbc.DataJdbcTest
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
-import org.springframework.context.annotation.Import
 import org.springframework.test.context.TestConstructor
 import team.flex.module.sample.corehr.company.repository.CompanyEntity
 import team.flex.module.sample.corehr.company.repository.CompanyJdbcRepository
 import team.flex.module.sample.corehr.company.repository.CompanyRepository
-import team.flex.module.sample.corehr.company.repository.CompanyRepositoryAutoConfiguration
 import java.time.Instant
 import java.time.temporal.ChronoUnit
 
-@Import(
-    CompanyRepositoryAutoConfiguration::class,
-)
 @DataJdbcTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)

@@ -3,8 +3,8 @@
  */
 
 dependencies {
-    implementation(project(":module-sample:exception"))
-    implementation(project(":module-sample:service"))
+    implementation(project(":corehr:exception"))
+    implementation(project(":corehr:service"))
 
     integrationTestImplementation("org.springframework.security:spring-security-test")
 }

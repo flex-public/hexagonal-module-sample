@@ -3,9 +3,9 @@
  */
 
 dependencies {
-    implementation(project(":module-sample:schema"))
-    implementation(project(":module-sample:api"))
-    implementation(project(":module-sample:repository-jdbc"))
+    implementation(project(":corehr:schema"))
+    implementation(project(":corehr:api"))
+    implementation(project(":corehr:repository-jdbc"))
 
     implementation("org.testcontainers:mysql")
     runtimeOnly("com.mysql:mysql-connector-j") {

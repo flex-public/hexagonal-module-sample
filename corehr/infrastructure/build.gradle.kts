@@ -3,5 +3,5 @@
  */
 
 dependencies {
-    api(project(":module-sample:model"))
+    api(project(":corehr:model"))
 }

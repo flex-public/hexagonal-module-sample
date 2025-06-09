@@ -4,14 +4,14 @@
 
 rootProject.name = "flex-module-sample"
 
-include(":module-sample:api")
-include(":module-sample:application-api")
-include(":module-sample:exception")
-include(":module-sample:infrastructure")
-include(":module-sample:model")
-include(":module-sample:repository-jdbc")
-include(":module-sample:schema")
-include(":module-sample:service")
+include(":corehr:api")
+include(":corehr:application-api")
+include(":corehr:exception")
+include(":corehr:infrastructure")
+include(":corehr:model")
+include(":corehr:repository-jdbc")
+include(":corehr:schema")
+include(":corehr:service")
 
 pluginManagement {
     buildscript {

@@ -1,0 +1,21 @@
+logging:
+  level:
+    org.springframework.jdbc.core: TRACE
+    org.springframework.jdbc.core.StatementCreatorUtils: TRACE
+
+spring:
+  datasource:
+    url: jdbc:tc:mysql:8.0.36:///test?serverTimezone=UTC&TC_REUSABLE=true&useUnicode=true&character_set_server=utf8mb4&connectionTimeZone=UTC&forceConnectionTimeZoneToSession=false&preserveInstants=true&cacheDefaultTimezone=false&zeroDateTimeBehavior=convertToNull&jdbcCompliantTruncation=false&sessionVariables=sql_mode%3D'STRICT_ALL_TABLES'&rewriteBatchedStatements=true
+    username: test
+    password: test
+    hikari:
+      data-source-properties:
+        keepSessionStateOnFailover: true
+  jpa:
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+  liquibase:
+    change-log: classpath:/db/changelog/db.changelog-initial-schema.yaml
+

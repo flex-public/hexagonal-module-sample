@@ -12,7 +12,10 @@ import team.flex.module.sample.payroll.repository.PayrollRepository
 @AutoConfiguration
 class PayrollAutoConfiguration {
     @Bean
-    fun payrollServiceImpl(payrollRepository: PayrollRepository, payrollHistoryRepository: PayrollHistoryRepository): PayrollService =
+    fun payrollServiceImpl(
+        payrollRepository: PayrollRepository,
+        payrollHistoryRepository: PayrollHistoryRepository,
+    ): PayrollService =
         PayrollServiceImpl(
             payrollRepository = payrollRepository,
             payrollHistoryRepository = payrollHistoryRepository,

@@ -38,7 +38,7 @@ internal class PayrollServiceImpl(
 ) : PayrollService {
     override fun getHistory(
         companyIdentity: CompanyIdentity,
-        employeeIdentity: EmployeeIdentity
+        employeeIdentity: EmployeeIdentity,
     ): PayrollHistory? {
         return payrollHistoryRepository.findByEmployeeIdentity(
             companyIdentity = companyIdentity,
@@ -50,7 +50,7 @@ internal class PayrollServiceImpl(
         companyIdentity: CompanyIdentity,
         employeeIdentity: EmployeeIdentity,
         payrollAmount: Long,
-        payDay: Int
+        payDay: Int,
     ): Payroll {
         return payrollRepository.save(
             Payroll(
@@ -61,7 +61,7 @@ internal class PayrollServiceImpl(
                 payrollAmount = payrollAmount,
                 createdAt = Instant.now(),
                 updatedAt = Instant.now(),
-            )
+            ),
         )
     }
 
@@ -70,10 +70,11 @@ internal class PayrollServiceImpl(
         employeeIdentity: EmployeeIdentity,
     ): PayrollHistory {
         val now = Instant.now()
-        val payrollInfo = payrollRepository.findByEmployeeIdentity(
-            companyIdentity = companyIdentity,
-            employeeIdentity = employeeIdentity,
-        ) ?: throw EmployeeNotFoundException()
+        val payrollInfo =
+            payrollRepository.findByEmployeeIdentity(
+                companyIdentity = companyIdentity,
+                employeeIdentity = employeeIdentity,
+            ) ?: throw EmployeeNotFoundException()
 
         return try {
             payrollHistoryRepository.save(
@@ -83,10 +84,13 @@ internal class PayrollServiceImpl(
                     payrollId = payrollInfo.id,
                     payDatetime = now,
                     payrollAmount = payrollInfo.payrollAmount,
-                )
+                ),
             )
         } catch (e: Exception) {
-            throw RuntimeException("Failed to process payroll for employee ${employeeIdentity.employeeId} at company ${companyIdentity.companyId}", e)
+            throw RuntimeException(
+                "Failed to process payroll for employee ${employeeIdentity.employeeId} at company ${companyIdentity.companyId}",
+                e,
+            )
         }
     }
 }

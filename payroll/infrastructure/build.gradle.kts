@@ -3,6 +3,5 @@
  */
 
 dependencies {
-    implementation(project(":payroll:model"))
-    implementation(project(":corehr:model"))
+    api(project(":payroll:model"))
 }

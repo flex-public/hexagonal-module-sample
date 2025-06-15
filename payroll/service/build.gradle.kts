@@ -3,7 +3,7 @@
  */
 
 dependencies {
-//    api(project(":payroll:model"))
+    api(project(":payroll:model"))
     implementation(project(":payroll:exception"))
     implementation(project(":payroll:infrastructure"))
 }

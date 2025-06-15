@@ -10,7 +10,7 @@ interface PayrollProps {
     val payrollAmount: Long
 }
 
-interface PayrollModel:
+interface PayrollModel :
     EmployeeIdentity,
     CompanyIdentity,
     PayrollProps,

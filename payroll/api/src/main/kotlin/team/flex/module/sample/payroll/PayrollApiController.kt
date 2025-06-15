@@ -15,8 +15,8 @@ import team.flex.module.sample.corehr.company.CompanyIdentity
 import team.flex.module.sample.corehr.company.of
 import team.flex.module.sample.corehr.employee.EmployeeIdentity
 import team.flex.module.sample.corehr.employee.of
-import team.flex.module.sample.payroll.dto.PayrollHistoryResponse
 import team.flex.module.sample.payroll.dto.PayRequest
+import team.flex.module.sample.payroll.dto.PayrollHistoryResponse
 import team.flex.module.sample.payroll.dto.PayrollInfoRequest
 import team.flex.module.sample.payroll.dto.PayrollInfoResponse
 

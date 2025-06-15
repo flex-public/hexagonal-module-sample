@@ -31,7 +31,7 @@ class PayrollHistoryRepositoryImpl(
 
     override fun findByEmployeeIdentity(
         companyIdentity: CompanyIdentity,
-        employeeIdentity: EmployeeIdentity
+        employeeIdentity: EmployeeIdentity,
     ): PayrollHistory? {
         return payrollHistoryJdbcRepository.findByEmployeeIdAndCompanyId(
             employeeId = employeeIdentity.employeeId,
@@ -40,13 +40,14 @@ class PayrollHistoryRepositoryImpl(
     }
 
     override fun save(payrollHistory: PayrollHistory): PayrollHistory {
-        val entity = PayrollHistoryEntity(
-            employeeId = payrollHistory.employeeId,
-            companyId = payrollHistory.companyId,
-            payrollId = payrollHistory.payrollId,
-            payDatetime = payrollHistory.payDatetime,
-            payrollAmount = payrollHistory.payrollAmount,
-        )
+        val entity =
+            PayrollHistoryEntity(
+                employeeId = payrollHistory.employeeId,
+                companyId = payrollHistory.companyId,
+                payrollId = payrollHistory.payrollId,
+                payDatetime = payrollHistory.payDatetime,
+                payrollAmount = payrollHistory.payrollAmount,
+            )
         return payrollHistoryJdbcRepository.save(entity).toModel()
     }
 }

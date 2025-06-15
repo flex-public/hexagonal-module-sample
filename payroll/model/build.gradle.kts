@@ -3,5 +3,6 @@
  */
 
 dependencies {
-    implementation(project(":corehr:model"))
+    api(project(":corehr:model"))
+    api(project(":corehr:exception"))
 }

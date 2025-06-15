@@ -32,7 +32,7 @@ class PayrollRepositoryImpl(
 
     override fun findByEmployeeIdentity(
         companyIdentity: CompanyIdentity,
-        employeeIdentity: EmployeeIdentity
+        employeeIdentity: EmployeeIdentity,
     ): PayrollModel? {
         return payrollJdbcRepository.findByEmployeeIdAndCompanyId(
             employeeId = employeeIdentity.employeeId,
@@ -47,7 +47,7 @@ class PayrollRepositoryImpl(
                 employeeId = payroll.employeeId,
                 payday = payroll.payday,
                 payrollAmount = payroll.payrollAmount,
-            )
+            ),
         ).toModel()
     }
 }

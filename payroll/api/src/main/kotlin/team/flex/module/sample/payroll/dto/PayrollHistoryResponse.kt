@@ -15,7 +15,7 @@ sealed class PayrollHistoryResponse(
         val companyId: Long,
         val payDatetime: Instant,
         val payrollAmount: Long,
-    ): PayrollHistoryResponse(ResponseType.EXIST)
+    ) : PayrollHistoryResponse(ResponseType.EXIST)
 
-    object NotExist: PayrollHistoryResponse(ResponseType.NOT_EXIST)
+    object NotExist : PayrollHistoryResponse(ResponseType.NOT_EXIST)
 }

@@ -22,9 +22,9 @@ class PayrollEntity(
     @Column
     override var payrollAmount: Long,
 ) : PayrollModel {
-
     @Column
     override val createdAt: Instant = Instant.now()
+
     @Column
     override val updatedAt: Instant = Instant.now()
 }

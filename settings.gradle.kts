@@ -12,6 +12,14 @@ include(":corehr:model")
 include(":corehr:repository-jdbc")
 include(":corehr:schema")
 include(":corehr:service")
+include(":payroll:api")
+include(":payroll:application-api")
+include(":payroll:exception")
+include(":payroll:infrastructure")
+include(":payroll:model")
+include(":payroll:repository-jdbc")
+include(":payroll:schema")
+include(":payroll:service")
 
 pluginManagement {
     buildscript {

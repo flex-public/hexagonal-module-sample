@@ -23,3 +23,14 @@
 4. `./gradlew check` 를 통해 검증이 가능합니다.
 5. `./gradlew bootRun` 을 실행하시면 8080 port를 이용해 서버가 기동됩니다. 
 6. [swagger-ui](http://localhost:8080/swagger-ui.html) 를 통해 api 호출을 확인해보실 수 있습니다.  
+
+> Note
+> ##### server port 변경
+> 
+> `./gradlew bootRun`를 통해 실행 시, 8080 port가 이미 다른 프로세스에 의해 사용 중이라면 다음과 같이 다른 port를 사용하여 실행할 수 있습니다.
+> 
+> `./gradlew bootRun --args="--server.port=[다른 port]`"
+> ##### curl을 통한 REST API 호출
+> 다음의 명령어를 통해 api를 호출해볼 수 있습니다.
+> 
+> `curl -v "http://localhost:[실행 시 지정한 port]/api/v2/corehr/companies/1/employees/1"`

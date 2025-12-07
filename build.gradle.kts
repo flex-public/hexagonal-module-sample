@@ -24,6 +24,12 @@ plugins {
     alias(libs.plugins.kotlin.spring) apply false
 }
 
+allprojects {
+    findProperty("group")?.let {
+        group = it
+    }
+}
+
 configureByTypePrefix("kotlin") {
     apply(plugin = "java")
     apply(plugin = "kotlin")

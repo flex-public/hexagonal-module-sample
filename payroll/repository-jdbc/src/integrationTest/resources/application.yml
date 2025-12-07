@@ -17,5 +17,5 @@ spring:
         jdbc:
           time_zone: UTC
   liquibase:
-    change-log: classpath:/db/changelog/db.changelog-initial-schema.yaml
+    change-log: classpath:/db/changelog/payroll/db.changelog-initial-schema.yaml
 

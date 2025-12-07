@@ -1,14 +1,12 @@
 databaseChangeLog:
-  - include:
-      file: /db/changelog/db.changelog-initial-schema.yaml
   - changeSet:
-      id: 1734418328776-2
+      id: 1734418328776-1
       author: flex-team
       changes:
         - sqlFile:
             dbms: mysql
             encoding: UTF-8
             endDelimiter: ';'
-            path: db/changelog/data.sql
+            path: db/changelog/payroll/initial_schema.sql
             splitStatements: true
             stripComments: false

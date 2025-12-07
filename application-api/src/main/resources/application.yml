@@ -8,7 +8,7 @@ spring:
     username: test
     password: test
   liquibase:
-    change-log: classpath:/db/changelog/corehr/db.changelog-initial-schema-and-data.yaml
+    change-log: classpath:/db/changelog/db.changelog-master.yaml
 
 server:
   tomcat:
@@ -39,7 +39,7 @@ spring:
 
 # local에서 server port 충돌을 피하기 위한 설정. gateway에 붙어야하면 이것을 기록해두는게 좋습니다
 server:
-  port: 12345
+  port: 12346
 
 management:
   endpoints:

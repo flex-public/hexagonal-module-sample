@@ -7,6 +7,6 @@ databaseChangeLog:
             dbms: mysql
             encoding: UTF-8
             endDelimiter: ';'
-            path: db/changelog/initial_schema.sql
+            path: db/changelog/corehr/initial_schema.sql
             splitStatements: true
             stripComments: false

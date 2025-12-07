@@ -1,0 +1,5 @@
+databaseChangeLog:
+  - include:
+      file: classpath:/db/changelog/corehr/db.changelog-initial-schema-and-data.yaml
+  - include:
+      file: classpath:/db/changelog/payroll/db.changelog-initial-schema-and-data.yaml

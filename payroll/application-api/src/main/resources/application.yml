@@ -8,7 +8,7 @@ spring:
     username: test
     password: test
   liquibase:
-    change-log: classpath:/db/changelog/db.changelog-initial-schema-and-data.yaml
+    change-log: classpath:/db/changelog/payroll/db.changelog-initial-schema-and-data.yaml
 
 server:
   tomcat:

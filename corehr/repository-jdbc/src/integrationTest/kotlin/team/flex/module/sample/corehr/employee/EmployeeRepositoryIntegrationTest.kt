@@ -6,8 +6,10 @@ package team.flex.module.sample.corehr.employee
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.springframework.boot.test.autoconfigure.data.jdbc.DataJdbcTest
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
+import org.springframework.boot.autoconfigure.ImportAutoConfiguration
+import org.springframework.boot.data.jdbc.test.autoconfigure.DataJdbcTest
+import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabase
+import org.springframework.boot.liquibase.autoconfigure.LiquibaseAutoConfiguration
 import org.springframework.test.context.TestConstructor
 import team.flex.module.sample.corehr.company.CompanyIdentity
 import team.flex.module.sample.corehr.company.of
@@ -17,6 +19,7 @@ import team.flex.module.sample.corehr.employee.repository.EmployeeRepository
 import java.time.Instant
 import java.time.temporal.ChronoUnit
 
+@ImportAutoConfiguration(LiquibaseAutoConfiguration::class)
 @DataJdbcTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)

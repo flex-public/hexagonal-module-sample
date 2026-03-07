@@ -17,7 +17,7 @@ domain/
 ├── api/                # REST Controller (Primary Adapter), service만 참조
 ├── application-api/    # 조립 모듈 (api + repository-jdbc + schema 통합)
 ├── exception/          # 도메인 예외
-└── schema/             # DB 스키마 (Flyway 마이그레이션)
+└── schema/             # DB 스키마 (liquibase 마이그레이션)
 ```
 
 ## 의존성 규칙 (Gradle이 컴파일 타임에 강제)

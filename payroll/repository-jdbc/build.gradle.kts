@@ -7,7 +7,8 @@ dependencies {
 
     implementation("org.liquibase:liquibase-core")
 
-    integrationTestImplementation("org.testcontainers:mysql")
+    integrationTestImplementation("org.springframework.boot:spring-boot-liquibase")
+    integrationTestImplementation("org.testcontainers:testcontainers-mysql")
     integrationTestImplementation(project(":payroll:schema"))
     integrationTestRuntimeOnly("com.mysql:mysql-connector-j") {
         exclude(group = "com.google.protobuf", module = "protobuf-java")

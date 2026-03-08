@@ -4,7 +4,6 @@
 
 import com.linecorp.support.project.multi.recipe.configureByTypeHaving
 import com.linecorp.support.project.multi.recipe.configureByTypePrefix
-import io.gitlab.arturbosch.detekt.DetektPlugin
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
@@ -35,10 +34,16 @@ configureByTypePrefix("kotlin") {
     apply(plugin = "kotlin")
     apply(plugin = "org.jlleitschuh.gradle.ktlint")
     apply<KtlintPlugin>()
-    apply<DetektPlugin>()
+    apply(plugin = "dev.detekt")
+
+    configure<JavaPluginExtension> {
+        sourceCompatibility = JavaVersion.VERSION_24
+        targetCompatibility = JavaVersion.VERSION_24
+    }
 
     configure<KotlinJvmProjectExtension> {
         compilerOptions {
+            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_24)
             freeCompilerArgs =
                 listOf(
                     "-Xjsr305=strict",
@@ -109,7 +114,7 @@ configureByTypeHaving("boot") {
         implementation(enforcedPlatform(SpringBootPlugin.BOM_COORDINATES))
 
         implementation("org.springframework.boot:spring-boot-starter")
-        implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+        implementation("tools.jackson.module:jackson-module-kotlin")
     }
 }
 
@@ -129,6 +134,8 @@ configureByTypeHaving("boot", "mvc") {
 configureByTypeHaving("boot", "jdbc", "repository") {
     dependencies {
         api("org.springframework.boot:spring-boot-starter-data-jdbc")
+
+        testImplementation("org.springframework.boot:spring-boot-starter-data-jdbc-test")
     }
 }
 
@@ -144,5 +151,8 @@ configureByTypeHaving("boot", "application") {
 configureByTypeHaving("boot", "mvc", "application") {
     dependencies {
         implementation("org.springframework.boot:spring-boot-starter-web")
+
+        testImplementation("org.springframework.boot:spring-boot-restclient")
+        testImplementation("org.springframework.boot:spring-boot-resttestclient")
     }
 }

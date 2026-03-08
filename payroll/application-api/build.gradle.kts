@@ -7,7 +7,7 @@ dependencies {
     implementation(project(":payroll:api"))
     implementation(project(":payroll:repository-jdbc"))
 
-    implementation("org.testcontainers:mysql")
+    implementation("org.testcontainers:testcontainers-mysql")
     runtimeOnly("com.mysql:mysql-connector-j") {
         exclude(group = "com.google.protobuf", module = "protobuf-java")
     }

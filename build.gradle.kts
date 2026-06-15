@@ -127,7 +127,7 @@ configureByTypeHaving("boot", "mvc") {
         implementation("org.springframework.security:spring-security-core")
         implementation("org.springframework.boot:spring-boot-starter-web")
 
-        implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0")
+        implementation(rootProject.libs.springdoc.openapi.starter.webmvc.ui)
     }
 }
 
